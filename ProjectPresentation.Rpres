@@ -1,0 +1,101 @@
+Should I pretend to love, or just like, this wine from Portugal?
+========================================================
+author: Catherine Pargeter
+date: September, 2014
+font-family: 'Helvetica'
+
+Why Fake it?
+========================================================
+
+How many times have you been out with friends and "Know-it-All" Joe asks "Can you taste the hints of Alaskan salmon with a touch of of parsnip in that wine?", or you go to a wine tasting with a certain someone you want to impress and don't know what to think of the wines?
+
+No body likes to look like a fool, so here is a way to fake your way through these awkward conversations.  
+
+All you need is a quick chemical analysis of the wine, or use the information on the bottle along with the preset median values.  Use the sliders to enter the values, and get a prediction of whether the wine is terrible, pretty ok, or the best wine you have ever drank!
+
+Check it out <a href = "https://cpargeter.shinyapps.io/Project/">here</a> next time you need to impress
+
+How it works
+========================================================
+right: 68%
+Using data from red and white wine from Portugal, the model takes the following characteristics into account:
+
+  - fixed.acidity
+  - volatile.acidity
+  - citric.acid
+  - residual.sugar
+  - chlorides
+  - free.sulfur.dioxide
+  
+  ***
+
+Data from:  P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. Modeling wine preferences by data mining from physicochemical properties. In Decision Support Systems, Elsevier, 47(4):547-553, 2009. Via UCI Machine Learning Repository 
+ - total.sulfur.dioxide
+ - density
+ - pH
+ - sulphates
+ - alcohol
+
+
+Red Wine Model Accuracy, Specificity and Sensitivity
+========================================================
+
+```{r,echo=FALSE, cache = T}
+library(e1071)
+library(caret)
+library(randomForest)
+library(ggplot2)
+
+red<-read.csv("../winequality/winequality-red.csv", sep=";")
+white<-read.csv("../winequality/winequality-white.csv", sep=";")
+
+set.seed(123)
+
+red$GB<-factor(ifelse(red$quality<5,0,ifelse(red$quality<7,1,2)))
+white$GB<-factor(ifelse(white$quality<5,0,ifelse(white$quality<7,1,2)))
+
+inTrain<-createDataPartition(y=red$quality,p=.7,list=F)
+train.red<-red[inTrain,]
+test.red<-red[-inTrain,]
+
+inTrain<-createDataPartition(y=white$quality,p=.7,list=F)
+train.white<-white[inTrain,]
+test.white<-white[-inTrain,]
+
+trControl=trainControl(method="cv",allowParallel = T)
+
+mod.red<-randomForest(GB ~.,data=train.red[,-c(12)],ntree=20,proximity=TRUE)
+mod.white<-randomForest(GB ~.,data=train.white[,-c(12)],ntree=20,proximity=TRUE)
+
+pred.red<-predict(mod.red,test.red[,-c(12:13)])
+pred.white<-predict(mod.white,test.white[,-c(12:13)])
+con.red<-confusionMatrix(pred.red,test.red[,13])
+con.white<-confusionMatrix(pred.white,test.white[,13])
+
+print(paste("Red Wine Accuracy:", round(con.red$overall[1],4)))
+        sens<-data.frame(Sensitivity = con.red$byClass[,1], 
+                Specificity = con.red$byClass[,2])
+        rownames(sens)<-c("Poor","Medium","Good")
+print(sens)
+```
+
+
+```{r echo=F, cache = T}
+con.red$table
+
+```
+
+White Wine Model Accuracy, Specificity and Sensitivity
+========================================================
+
+```{r,echo=FALSE, cache = T}
+print(paste("White Wine Accuracy:",round(con.white$overall[1],4)))
+        sens<-data.frame(Sensitivity = c(round(con.white$byClass[,1],4)), 
+                Specificity = round(con.white$byClass[,2],4))
+        rownames(sens)<-c("Poor","Medium","Good")
+print(sens)
+```
+
+```{r echo=F, cache = T}
+con.white$table
+```
