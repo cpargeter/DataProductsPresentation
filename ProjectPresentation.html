@@ -794,7 +794,7 @@ hljs.initHighlightingOnLoad();
 <section data-transition="linear" data-transition-speed="default">
 <h3>Why Fake it?</h3>
 <div class="slideContent" >
-<p>How many times have you been out with friends and &ldquo;Know-it-All&rdquo; Joe asks &ldquo;Can you taste the hints of Alaskan salmon with a touch of of parsnip in that wine?&rdquo;, or you go to a wine tasting with a certain someone you want to impress and don&#39;t know what to think of the wines?</p>
+<p>How many times have you been out with friends and &ldquo;Know-it-All&rdquo; Joe asks about your wine? &ldquo;Can you taste the hints of Alaskan salmon with a touch of of parsnip in that wine&rdquo;? Or maybe you go to a wine tasting with a certain someone you want to impress and don&#39;t know what to think?</p>
 
 <p>No body likes to look like a fool, so here is a way to fake your way through these awkward conversations.  </p>
 
@@ -807,8 +807,11 @@ hljs.initHighlightingOnLoad();
 </section>
 <section data-transition="linear" data-transition-speed="default">
 <h3>How it works</h3>
-<div class="column column1 slideContent" style="width: 30%;" >
-<p>Using data from red and white wine from Portugal, the model takes the following characteristics into account:</p>
+<div class="column column1 slideContent" style="width: 65%;" >
+<p>Using data from red and white wine from Portugal, the random forest model with 20 trees takes the following characteristics into account:</p>
+<p>Data from:  P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. Modeling wine preferences by data mining from physicochemical properties. In Decision Support Systems, Elsevier, 47(4):547-553, 2009. Via UCI Machine Learning Repository </p>
+
+<div class="column column2 slideContent" style="width: 35%;" >
 
 <ul>
 <li>fixed.acidity</li>
@@ -817,17 +820,6 @@ hljs.initHighlightingOnLoad();
 <li>residual.sugar</li>
 <li>chlorides</li>
 <li><p>free.sulfur.dioxide</p>
-
-
-</div>
-
-<div class="column column2 slideContent" style="width: 66%;" >
-</li>
-</ul>
-
-<p>Data from:  P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. Modeling wine preferences by data mining from physicochemical properties. In Decision Support Systems, Elsevier, 47(4):547-553, 2009. Via UCI Machine Learning Repository </p>
-
-<ul>
 <li>total.sulfur.dioxide</li>
 <li>density</li>
 <li>pH</li>
@@ -839,7 +831,7 @@ hljs.initHighlightingOnLoad();
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>Red Wine Model Accuracy, Specificity and Sensitivity</h3>
+<h3>Red Wine Model Accuracy, Specificity and Sensitivity (Out-of-Sample)</h3>
 <div class="slideContent" >
 <pre><code>[1] &quot;Red Wine Accuracy: 0.8622&quot;
 </code></pre>
@@ -861,7 +853,7 @@ Prediction   0   1   2
 
 </section>
 <section data-transition="linear" data-transition-speed="default">
-<h3>White Wine Model Accuracy, Specificity and Sensitivity</h3>
+<h3>White Wine Model Accuracy, Specificity and Sensitivity (Out-of-Sample)</h3>
 <div class="slideContent" >
 <pre><code>[1] &quot;White Wine Accuracy: 0.8387&quot;
 </code></pre>
